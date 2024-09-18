@@ -154,7 +154,7 @@ class MultipleTrajectoryPredictionLoss(nn.Module):
         gt_cls = index
         pred_trajectory = pred_trajectory[torch.tensor(range(len(gt_cls)), device=gt_cls.device), index, ...]  # B, num_pts, 3
 
-        cls_loss = self.cls_loss(pred_cls, gt_cls)
+        cls_loss = self.cls_loss(pred_cls, gt_cls)  # 这个地方没看懂，交叉熵损失有什么用？
 
         reg_loss = self.reg_loss(pred_trajectory, gt).mean(dim=(0, 1))
 

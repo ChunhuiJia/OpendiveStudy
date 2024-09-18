@@ -6,13 +6,13 @@ from math import pi
 import numpy as np
 from scipy.interpolate import interp1d
 import cv2
-cv2.setNumThreads(0)
-cv2.ocl.setUseOpenCL(False)
+cv2.setNumThreads(0)  # 用于设置 OpenCV 使用的线程数。当你设置 0 时，意味着你告诉 OpenCV 不要使用多线程，而是使用单线程来执行操作。
+cv2.ocl.setUseOpenCL(False) # 是 OpenCV 库中用于设置是否使用 OpenCL 的函数调用。OpenCL 是一个开放标准，用于在异构平台上编写程序，以利用多种处理器，如 CPU、GPU 或其他类型的处理器，来加速计算。
 
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision import transforms
-from utils import warp, generate_random_params_for_warp
+from torchvision import transforms  #torchvision 库中的 transforms 模块。transforms 是 PyTorch 的一个子库，用于图像处理和增强。它提供了一系列的图像转换操作
+from utils import warp, generate_random_params_for_warp  # 
 from view_transform import calibration
 
 import utils_comma2k19.orientation as orient
@@ -160,7 +160,7 @@ class Comma2k19SequenceDataset(PlanningDataset):
         self.prefix = prefix
 
         self.samples = open(split_txt_path).readlines()
-        self.samples = [i.strip() for i in self.samples]
+        self.samples = [i.strip() for i in self.samples] # self.samples是一个列表，整句话的意思是把该列表中的所有元素的字符移除两端的空白字符（包括空格、换行符、制表符）
 
         assert mode in ('train', 'val', 'demo')
         self.mode = mode
