@@ -23,6 +23,7 @@ else:
 from data import PlanningDataset, SequencePlanningDataset, Comma2k19SequenceDataset
 from model import PlaningNetwork, MultipleTrajectoryPredictionLoss, SequencePlanningNetwork
 from utils import draw_trajectory_on_ax, get_val_metric, get_val_metric_keys
+# 下面这三行是我加的，这样就免得在 python main.py 之前添加相关的系统变量了
 os.environ['PORT'] = '23333'
 os.environ['SLURM_PROCID'] = '0'
 os.environ['SLURM_NTASKS'] = '1'
@@ -80,7 +81,7 @@ def get_dataloader(rank, world_size, batch_size, pin_memory=False, num_workers=0
 
 
 def cleanup():
-    dist.destroy_process_group()
+    dist.destroy_process_group()  # 是 PyTorch 分布式训练中的一个函数，用于销毁已创建的分布式进程组。这个函数通常在所有进程完成分布式任务后调用，以确保正确清理资源和关闭后台进程。
 
 class SequenceBaselineV1(nn.Module):
     def __init__(self, M, num_pts, mtp_alpha, lr, optimizer, optimize_per_n_step=40) -> None:
@@ -246,7 +247,7 @@ def main(rank, world_size, args):
                         writer.add_scalar(k, metric_gather_weighted_mean[i], num_steps)
                 dist.barrier()
 
-            model.train()
+            model.train()  # model.train() 是一个方法，用于将模型设置为训练模式。这个模式是模型的默认状态，通常在模型训练阶段使用。
 
     cleanup()
 
